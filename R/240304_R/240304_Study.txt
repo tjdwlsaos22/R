@@ -1,0 +1,210 @@
+240304 R Study
+
+R 
+-통계 계산, 그래프 작성에 특화, 데이터분석을 위한 통계 그래픽스를 지원.
+- 프리 소프르퉤어
+구글 페북에서 R을 주요 분석 플랫촘으로 사용.
+다양한 추가기능을 별도 패키지 형태로 제공
+
+설치
+-R 프로그램, install.packages("IRkernel") 0번으로 설치.
+-IRkernel::installspec(name="r", displayname="R")  를 통해 설치
+(윈도우는 위와 같은 방법이 되지않음. Anaconda를 사용해서 Environment에 Create로 하나 만든다.
+Python버전은 3.7.16 R은 현재 선택되어있는 버전으로. 
+만들게되면 VS에 jupyter kernel이 있고 거기에 내가 만든것을 넣어주면 된다.)
+
+
+head(iris)  --  데이터의 제일 처음 6줄, 
+tail(iris) --제일 끝 6줄   iris,5 이러면 5줄
+iris -  전부 나오는데 중간에 ...나옴
+aaa <-  head(iris)    aaa에 값이 들어감.
+할당 = 메모리 사용.
+그냥 실행 = cpu사용
+​
+ls() 현재사용중인 변수
+rm(aaa) aaa변수 지우기.
+​
+R의 인덱스 첫번째는 1번이다. 0번이아님.
+​
+help(head)
+example(head)  헤드의 도움말, 헤드의 예시
+산술 = 1+2 =3 등등  원래는 R에는 안되지만 주피터의 지원으로 바로바로 출력이되는것(print)같은거 없이
+​
+정수 나눗셈 몫 22 %/% 5 =4
+나머지  %%붙이면됨.
+​
+거듭제곱 = ** 또는 ^
+제곱근 = sqrt(2) ==2의 루트
+절대값 abs(-10)  ==10
+난수(랜덤)  0<x<1의 값  -- 데이터가없을 때 사용
+runif(10) == 10개 랜덤.
+trunc(100.5)  ==100
+trunc(runif(10)*100)   100이하의 정수 난수 구하기.
+trunc(runif(6, min=1,max=45)) 1부터 45까지 랜덤으로 6개.
+head(Nile) 6개만 보여주는 2차원.
+
+hist(Nile) = 데이터 빈도수  히스토그램.
+
+par(bg='white') = 백그라운드 설정 
+
+plot(iris) - 산포도   / 형태인것이 잘된것. 아니면 망한거
+plot(iris$Petal.Length,iris$Sepal.Length)​
+그 중에 하나만 골라볼때. 앞이 x 뒤가 y
+plot(iris$Petal.Length,iris$Sepal.Length,col=iris$Species) 특성별 색상분류​
+컬러값으로 비교하기.
+
+R은 전부 벡터형으로 되어있다.
+​
+데이터 만들기
+1부터 100까지
+​
+1:100 = 이게 다임
+sum(1:100) 1부터 100까지의 합.
+​
+1:100[1]은 100에 대한 1이라 그냥 100.
+괄호를 치면 (1:100)[1] 1하고 100사이의 1이라 1이나옴.  일차원배열이라 [1,2]가안됨.
+​
+num1 <- 10  = 스칼라변수? 1개밖에없음.
+num1[1]   = 10
+num1[2] = NA(당연히 10 1개밖에없으니)
+​
+덧셈이나 계산에 NA가 있으면 값이 <NA>가된다.
+sum(10,20,30,NA,na.rm=T) NA빼고 덧셈함.
+​
+is.numeric(iris$Sepal.Length)​
+
+is =  True or False numeric= 숫자형인가?
+is.factor(iris$Species)​
+숫자 문자 둘다 가지고잇나?
+​
+is.na(iris)​
+테이블전부 나오고 false랑 true가 나옴. 하지만 sum(is.na(iris)) 하게 됐을때 테이블없이 출력되는데
+ 0이 나오면 na가 없다는 것이됨. false=0.
+true=1
+​
+is쓸바엔 class를 써서 그냥 클래스 알아가는게 더 빠름.
+​
+자료 구조 확인
+str(iris)
+​
+숫자만 = 매트릭스
+숫자랑 문자 둘다 사용가능 =  데이터 프레임
+​
+$ 열표시.
+​
+gender <- c("man","woman","woman","man","man")
+gender
+class(gender)​
+​
+plot(gender)시에 오류 발생.
+Ngender <- as.factor(gender) 하고 Ngender로 만들면 생김.
+​
+as.Date(date1,"%y/%m/%d")  날짜 형식으로 바꿔서 데이트 화 시켜준다.
+date1이 17/02/10
+만약 17-02-10 일경우엔 %y-%m-%d 여야 한다.
+as.Date("2018/12/31","%Y/%m/%d")​
+년도가 4자리가 됏을경우엔 %Y(대문자)
+이미 4자리라서 뒤에 %안써도 문제는 없다.
+​
+​
+myDates <- as.Date(c("2023-11-20","2024-03-04"))
+myDates[2]-myDates[1]​
+​
+날짜를 date화 시켜서 빼면 얼마 지났는지 확인이 가능함.
+​
+weekdays(myDates)​
+요일도 출력가능.
+​
+iris$Sepal.Length​
+이것이 1차원 벡터
+​
+range(irisSepalLength)​
+최댓값과 최솟값 나오는 것.
+round(mean(irisSepalLength),digit=2)​
+평균을 구해서 소숫점 두자리 수로 만드는 것.
+irisSepalLength = iris$SepalLength
+sum(irisSepalLength[c(1, 10, 11)])​
+1,10,11번 데이터 뽑아서 더하기.4
+​
+c(1,c(10,11)) 이것도 가능.
+​
+sum(irisSepalLength[1:20], irisSepalLength[c(30, 40)])
+​
+ y <- replace(x,c(2,4),c(200,400))​
+x의 2번쨰 4번째를 200,400으로 변경시켜서 y에 대입.
+​
+seq(1,10,0.5)​
+
+1부터 10까지 0.5씩 증가.
+​
+rep(1:3,3) =123123123
+c(rep("red",3),"blue")​
+반복
+​
+sum(rep(seq(2,20,2),each=2))​
+짝수만 구해서 2번씩 반복
+​224466881010 순으로 반복됨
+
+x <- c(1,3,5,7)
+y <- c(3,5)
+union(x,y)
+intersect(x,y)
+setdiff(x,y)​
+합교차
+​
+정렬안해주면 머신러닝 불가능!
+​
+sample(1:45,6)​
+6개 숫자 뽑아내기. 중복없이.
+​
+sort(sample(1:10,10),decreasing = T)​
+정렬 기본 오름차순. decreasing사용시 내림차순 정렬.
+​
+x <- sort(sample(1:99,9)); x   같은 줄에 두개의 코드사용시 ;사용
+y <- sort(sample(3:60,7)); y
+setequal(x,y)  같은지 비교하기.
+length(x) =9
+​
+# 12가 포함되었는가?
+is.element(12,x)
+​
+​
+name <- c("apple","Computer","samsung","Communication")
+grep('Co',name)   -- 글씨가 몇번째에 있는가 2,4
+name[grep('Co',name)]  이 글씨가 포함되있는 이름 출력
+name[grep('om',name)]
+​
+a <- 1:500
+# 10번부터 전체 데이터 중 끝에서 5개는 빼고 사용.
+a <- a[10:(length(a)-5)]
+​
+a <- 10:50
+a[-1]​
+이러면 a의 1번지가 지워짐 (일단은 확인.)
+근데 이후에 a하게 되면 10이 나옴, 따라서 a앞에 a <- 할당해줘야 지워짐.
+a <- a[-c(2, 5:10)]​
+2번과 5~10번 지움.
+​
+a <- 10:50
+sum(a)
+# a의 홀수 Data의 합계구하기(단 a의 데이터는 가변적이다)
+a <- sum(a[a%%2 !=0 ])
+# a의 홀수 번지 Data의 합계구하기(단 a의 데이터는 가변적이다)
+a <- sum(a[seq(10, length(a), 2)])
+​
+a<- c(c(1,3,5),1:10,seq(1,10,2),rep(1:3 ,2))
+c는 순차적으로 숫자를 표현해줌 더하는게 아님. ​
+​
+iris[1:6,1:2]​
+6줄까지 나오고 열은 1번 2번만 보인다.
+t(irishead)​
+컬럼과 로우를 반대로 하는 t
+서울시 데이터 광장은 이런식으로 되어있다.
+​
+print(iris.num1[seq(10,150,10)])​
+10부터 150번지까지를 10번째씩 출력 10,20,30,40 순으로 15개
+​
+head(iris[seq(10, 150, 10),], n = 15)​
+
+10부터 150까지 10번씩 출력, n은 15줄 ,]는 뒤에 열을 선택할수 잇음 비어있을시 모든 열
+
