@@ -1,0 +1,329 @@
+readline
+​
+num1 <- as.integer(readline("숫자 입력"))  --  문자라 정수로 변환. 위에 숫자 입력시 숫자출력
+num1​
+​
+num1 <- as.integer(readline("숫자 입력"))
+num1
+
+ifelse(num1 %% 2==0,paste("입력하신 숫자는",num1,"이고, 짝수입니다"),paste(num1,"는 홀수"))​
+​
+# excel.csv를 읽어서 excel이라는 벡터변수에 할당하기.
+
+excel <-read.csv("./Data/excel.csv")
+str(excel)
+head(excel,5)
+​
+#q1 컬럼에서 data가 3보다 크거나 같으면 data의 제곱근을 구하고 아니면 원래 data를 출력
+#이 결과를 q6로 만들어서 추가하기 열로
+
+excel$q6 = ifelse(excel$q1 >= 3,sqrt(excel$q1),excel$q1)
+excel​
+​
+for(i in 1:10){
+    print(i)
+}
+for(i in c(1,3,4)){
+    print(i)
+}
+​
+sum=0;
+for(i in seq(1,100,2)){    if문 사용 없이 1부터 100까지중의 홀수만 뽑아서 합 구하기.
+    sum <- sum+i
+}
+    print(sum)
+​
+for (i in 1:10) {
+  cat(i, "=>", format(sqrt(i),digit=10),"\n")
+} 이렇게 하면 소숫점 10자리까지 가능.​
+​
+#excel file에서 q3컬럼의 홀수 합과 짝수 합 구하기
+odd =0;
+even=0;
+for( i in excel$q3){  i의 범위를 excel$q3로 반복되게 한다음에( 그냥 if로 excel$q3하면 한개가 아니라고 오류나옴)
+    if(i %% 2 ==0){   나누었을때 0인것 = 짝수
+        odd <- odd+i    더해지는것
+    }else{
+        even<-even+i
+    }
+}                                                       
+ifelse(i %% 2 ==0,odd<-odd+i,even<-even+i)  이렇게도 바꿀 수 있음 이게 더 나음.
+cat(odd,"\n")  cat을 써야 앞에 번호 안나옴.
+cat(even)​
+​
+sum(ifelse(excel$q3 %% 2 ==0,excel$q3,0))  짝수면 q3 sum한다, 아래는 홀수면 q3 sum한다.
+sum(ifelse(excel$q3 %% 2 !=0,excel$q3,0)) 이렇게 하면 위에것 전부 지우고 이거 두줄만으로도 가능.
+​
+​
+#3의 배수도 되고 4의 배수가 되는 것.
+summary(excel$q3) -- 이걸로 최소 최대 확인해서 12가 없으면 값이 0이 나오는게 맞다.
+sum(ifelse(excel$q3 %% 3 ==0 && excel$q3 %% 4 ==0 ,excel$q3,0))
+​
+dan <- as.integer(readline("단 입력"))
+for(i in 1:9){
+    cat(dan,"X",i,"=",dan*i,"\n")
+}
+​
+#구구단 함수 만들기 - 1
+gugu <- function(){
+    dan <- as.integer(readline("단 입력"))
+    for(i in 1:9){
+    cat(dan,"X",i,"=",dan*i,"\n")
+}
+}
+
+gugu()​
+함수 지정해서 이것만 불러도 바로 출력가능. function(){여기에 실행할거 적기}
+​
+gugu2 <- function(dan){
+    for(i in 1:9){
+    cat(dan,"X",i,"=",dan*i,"\n")
+}
+}
+
+gugu2(3)​
+이렇게 로도 가능.
+​
+gugu3 <- function(dan,i){
+    cat(dan,"X",i,"=",dan*i,"\n")
+}
+gugu3(2,12)​
+이것은 단과 곱할거
+​
+gugu3 <- function(dan,i){
+    for(a in 1:i)
+    cat(dan,"X",a,"=",dan*a,"\n")
+}
+gugu3(2,12)​
+이러면 12까지 출력
+​
+# 2개의 벡터자료를 함꼐 출력하기  -- 길이가 똑같으니 name이나 score써도됨. 
+score <- c(85,95,89)
+name <- c("유비","관우","장비")
+
+for(i in 1:length(name)){
+  cat(name[i],":",score[i],"\n")
+}
+cat(paste(name,":",score,"\n"),"\n")
+cat(name,":",score)
+아래대로 하면 name 3개 다나오고 score가 나오는데 
+paste를 쓰면 이름: 점수로 나오게 됨.
+cat(paste(name,":",score,"\n"),sep="") 이렇게 아니면 밖에 "\n"주면 됨. 위에 굳이 쓸필요없이
+이거 하나로 가능
+"\n"는 cat에서만 사용가능!
+하지만 이렇게 하면 줄이 뭔가 꼬여잇음 뒤에 sep=""주면됨.
+
+​
+for(i in 1:ncol(test)){
+    cat(colnames(test)[i], "컬럼의 빈도 분석 결과")
+    print(table(test[,i]))
+    cat("----------------------\n")
+}​
+​
+
+for(i in 1:ncol(test)){
+    cat(colnames(test)[i], "컬럼의 빈도 분석 결과")
+    cat(i,"번째 컬럼 빈도수의 최대값과 최소값\n", "최대값:",max(table(test[,i])), "최소값:",min(table(test[,i])),"\n")
+
+    cat("----------------------\n")
+}
+
+# 각 컬럼의 빈도수와 최댓값구하기.​
+
+​
+​
+gugu3 <- function(x, y) {
+  for (dan in x) {
+    for (num in y) {
+      cat(dan, "X", num, "=", dan * num, "\n")
+    }
+    cat("\n")
+  }
+}​
+gugu3(2:3,1:7) 이게 가능 한 코드 7까지, 3까지니까 맞음.
+​
+data <- c(1,2,3,4,NA,5,3,2,5,NA)
+sum(is.na(data)) na갯수구하기.
+​
+mean(data,na.rm = T)   na를 제외한 평균 구하기.
+
+​
+a <- mean(ifelse(is.na(data),0,data))  na인 것은 0 아닌것은 그냥 데이터 값으로 해서 평균계산.
+#na를 평균으로 대체하여 평균구하기. a에 값을 줘서 아래 a넣어서 계산하기.
+mean(ifelse(is.na(data),a,data))
+mean(ifelse(is.na(data),median(data,na.rm = T),data))
+mean(ifelse(is.na(data),max(data,na.rm = T),data))
+mean(ifelse(is.na(data),min(data,na.rm = T),data))
+summary(data)
+#1사분위수로 대체
+mean(ifelse(is.na(data),quantile(data,0.25,na.rm = T),data))
+#3사분위수로 대체
+b <- mean(ifelse(is.na(data),quantile(data,0.75,na.rm = T),data))
+
+#3사분위수가 젤 가까워서 처음이랑 뺀다음에 절대값
+abs(mean(ifelse(is.na(data),b,data))-mean(data,na.rm = T))
+​
+​
+coin <- function(n){
+    count1 <-  0 #앞면
+    count2 <-  0 #뒷면
+
+    for(i in 1:n)
+{
+    if(runif(1) <= 1/2){
+        count1 =count1+1
+    }else{
+        count2=count2+1
+    }}
+    cat("뒷면 :",count2,"\n")
+    cat("앞면 :",count1,"\n")
+    cat("-------------------\n")
+
+}
+coin(10)
+coin(1000000000)
+​
+coin에 n값 입력시에 안에 들어가서 1번씩 랜덤으로 돌리고 
+​
+​
+rock <- function(n){
+    count1 <-  0 #가위
+    count2 <-  0 #바위
+    count3 <-  0 #보
+
+    for(i in 1:n)
+{   a <- runif(1)
+    if(a <= 1/3){
+        count1 =count1+1
+    }else if(a <= 2/3)
+    {
+        count2=count2+1
+    }else{
+        count3=count3+1
+    }
+    
+    }
+    cat("가위 :",count1,"\n")
+    cat("바위 :",count2,"\n")
+    cat("보 :",count3,"\n")
+    cat("-------------------\n")
+
+}
+
+rock(10)
+rock(100)​
+  이것도 되긴하지만 데이터가 늘어나면 이렇게 쓴느게 아니다.
+​
+rock1 <- function(n){
+    count1 <-  0 #가위
+    count2 <-  0 #바위
+    count3 <-  0 #보
+
+    for(i in 1:n)
+{   x <- trunc(runif(1)*3)+1     랜덤으로 값받아서 소숫점 버리면 0~2 여기에 1더해서 1~3
+    if(x==1) count1 = count1+1  1일때 카운트 증가
+    if(x==2) count2 = count2+1   2일때 증가
+    if(x==3) count3 = count3+1           가위바위보 다 순서달라도됨.
+
+    
+    }
+    cat("가위 :",count1,"\n")    횟수표시
+    cat("바위 :",count2,"\n")
+    cat("보 :",count3,"\n")
+    cat("-------------------\n")
+
+}
+rock1(100)
+​
+​
+dice <- function(n){
+    counts <- integer(6)  6개 빈칸으로 만들어주고
+
+    for(i in 1:n)   10번이면 10번반복
+{   x <- trunc(runif(1)*6)+1  6곱해서 소숫점 날리고 +1 1~6
+    counts[x] <- counts[x]+1   카운트 1~6 에 1씩증가
+
+    
+    }
+    i<-1
+    repeat{
+    cat(i,":",counts[i],"\n")  i가 6번 반복하면서 counts는 6까지니까 6번반복해서 출력함.
+        i<-i+1
+        if(i>6){
+        break}
+        }
+    cat("-------------------\n")
+    
+}
+dice(10)​
+​
+ 
+options(scipen = 100)
+
+dice1 <- function(n){
+    counts <- rep(0,6)
+    cat("Throw :",n,"\n")
+
+    for(i in 1:n)
+{   x <- trunc(runif(1)*6)+1
+    counts[x] <- counts[x]+1
+
+    
+    }
+    for(i in 1:length(counts)){
+        cat("No",i,"->",counts[i],"\n")
+    }
+    cat("------------------\n")
+    
+}   다른방식.
+dice1(10000)
+​
+save(no,fruit,name,file="./Data/testFruit.hwp")​
+파일 보관(저장)
+rm(no,fruit,name)
+ls()​
+삭제하게되면 ls에서도 사라짐.
+​
+load("./Data/testFruit.hwp")​
+불러와서 다시 변수실행해주면 다시 값이 나타나는데, ls()치면 지워졌던 해당파일에 대한 변수가 돌아옴,
+write.csv(fruit,"./Data/fruit.csv")​
+엑셀 저장방식인데. 이것은 저장하면 앞에 index값(이름없음)이 붙는다. 이렇게 되면
+read.csv("./Data/fruit.csv") 여기에 index값이 붙여져서 출력됨.​
+따라서 write.csv 뒤에  row.names=F 넣어주면 된다.
+​
+GDP_ranking = read.csv("./Data/GDP.csv",stringsAsFactors = F)  factor일때 이거 써야함.​
+head(GDP_ranking[-1:-4,c(-3,-6)]) 비어있는 행과 열 삭제.​
+​
+#컬럼 이름 정의 :  Code, Ranking,Nation,GDP
+GDP_ranking15
+colnames(GDP_ranking15) <- c("Code","Ranking","Nation","GDP")
+head(GDP_ranking15)
+rownames(GDP_ranking15) <- c()
+print(head(GDP_ranking15))​
+​
+GDP_ranking15$GDP <- as.numeric(str_replace_all(GDP_ranking15$GDP,",",""))​
+문자를 숫자로 바꾸기. -- 차트만들때 숫자형이어야함. ,때문에 숫자 안바귀니가 replace_all사용
+​
+par(family="AppleGothic",bg='white')   -- 맥 사용시에 main보이게 하기 위함.
+barplot(
+    GDP_ranking15$GDP/1000(천달러기준)    
+    ylim = c(0,25000) (단위 낮추게되면 이 명령어를 통해 줄일수잇다.)
+    main = "2018년 GDP 세계 15위 국가"
+    xlab ="국가(nation)",  #x축이름
+    ylab ="단위(달러)"   #y축이름
+    col = rainbow(nrow(GDP_ranking15)),
+    names = GDP_ranking15$Code ,   ##이렇게 되면 글씨가 길면 짤림, 글씨 크기 줄일수잇다. 기본갑 1
+    #cex.names=0.5
+
+)​
+options(warn = -1)
+options(repr.plot.width=15, repr.plot.height=9) ​
+​
+수치가지고 바로 차트 만들기.
+​
+# 미국과 중국, 한국은 빨간색으로 나머지 국가는 파란색으로 표시한다.
+col = c("red","red",rep("blue",9),"red",rep("blue",3))
+ifelse(GDP_ranking15$Code == c('USA',"CHN","KOR"),'red','blue')  둘중 하나 쓰면됨.
+​
+
+ 
