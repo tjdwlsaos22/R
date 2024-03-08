@@ -1,0 +1,272 @@
+240308_R
+​
+par(family = "AppleGothic",bg="lightgray")
+barplot(chart_data,
+main='2017년도,2018년도 분기별 매출 현황 비교',
+xlim = c(0,600),
+ylab = "년도별 분기 현황",
+xlab = "매출액(단위:백만원)",
+legend.text = T,
+horiz = T, 
+space = rep(c(2,0.3),4),
+cex.name = 0.5,
+col = rep(c('red','blue'),4))​
+​
+색상 레드 블루로 4번씩반복(2017 1,2018 1 이런식으로되어있으니 년도별로 색상이 묶임)
+cex.name = 이름 사이즈 조절
+horizon = x축과 y축을 변경시켜서 반대로 보이게 하는 것
+legend.text = 범례 표시
+space = rep(c(2,0.3),4) 공간간격 조절하는 법 이러면 2017 1과 2018 1의 간격은 0.3 그외는 2
+beside =T 로우로 겹치는 애들을 이 명령어를 치면 옆으로 나옴.
+​
+#안에 있는 행의 값을 바꾸는 코드
+data$V1 <- factor(data$V1,levels = 1:2,labels=c("남","여")). 레벨은 현재 안에 있는값이 1에서 2까지밖에없는데 이 라벨을 1은 남자 2는 여자로 하겟다.
+data$V3 <- factor(data$V3, levels=1:3, labels=c("국어","영어","수학"))
+data$V4 <- factor(data$V4, levels=1:5, labels=c("초","중","고","대","원")) ​
+​
+레전드의 위치를 변경할떄는 legend.text=T를 못쓰고 따로 이렇게 적어줘야 하며 7,80은 x,y좌표이다.
+    legend(
+        7,80,               # 레전드 위치 지정
+       legend = rownames(VADeaths), # 레전드 텍스트. -- 여기는 범례이름을 행 이름으로 하겟다는 것이고,
+       fill = ​​c('red', 'yellow', 'green', 'blue', 'purple')​) # 막대 색상. 색상이다.
+​
+sales <- c(210,110,400,550,600,130)
+week <- c('월','화','수','목','금','토')
+ratio <- sales / sum(sales)*100
+label <- paste(week,"\n",ratio,'%')
+par(family = "AppleGothic",bg = 'lightgray')
+pie(sales, main = "영업실적 파이차트",
+col = rainbow(length(sales)),
+labels =label)                 이렇게 하면 2D의 파이차트를 만들수 있고, 라벨에 위크랑 퍼센트 해둔것을 합쳐두고 라벨로지정하면 퍼센트까지 나올 수있다.
+​
+par(family = "AppleGothic",bg = 'lightgray')
+pie3D(sales, main = "영업실적 파이차트",
+col = rainbow(length(sales)),
+labels =label,
+explode = 0.05,
+labelcex = 0.8)​
+explode = 원이 비율대로 쪼개짐
+labelcex = 라벨 글씨 크기 조정
+pie3D = 파이 3D 화 시키기. library(plotrix) 사용해야한다.​
+​
+election$electionSum <- rowSums(election[c("이재명", "윤석열", "심상정")]) 행의 합을 구한다. 이거 그냥 +로도 가능하다.
+election$electionSum <- apply(election[,5:7],1,sum) apply써서 5~7열의 값을 더해서 행으로(1) 출력
+​
+#electionRatio가 가장 높은 시군구와 낮은 시군구?  
+arrange(election,desc(electionRatio))[1,] 높은거
+arrange(election,desc(electionRatio))[nrow(election),]. arrange 쓰면 쉽게 가능함.  낮은거
+​
+write.csv(election, "./Data/election_2022_job.csv") 파일 저장! 처음은 어떤것을 가지고 여기에 저장할지 데이터 적는거고. 저장할 파일 경로와 이름을 지정한다.
+​
+​
+a <- aggregate(투표수 ~ 광역시도, election, sum)
+a$투표율 <- a$`투표수`/sum(a$`투표수`)*100
+a <- arrange(a,desc(a$`투표율`))
+
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(a$`광역시도`,"\n",round(a$`투표율`,2),'%')
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(a$`투표수`, main = "광역시도별 투표율",
+      col = rainbow(length(a$`투표수`)),
+      labels = label,
+      labelcex = 0.8,
+      radius = 0.9)​
+​
+#수도권(경기 서울 인천)의 투표수가 
+round(sum(subset(a,광역시도 =="경기도" | 광역시도 =="서울특별시" | 광역시도 =="인천광역시")$투표수)/sum(a$`투표수`)*100,2)
+
+a
+round(sum(a$`투표수`[c(1,2,5)])/sum(a$`투표수`)*100,2)​
+​
+b <- aggregate(윤석열 ~ 광역시도, election, sum)
+b
+b$윤석열1 <- b$`윤석열`/sum(b$`윤석열`)*100
+b <- arrange(b,desc(b$`윤석열1`))
+
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(b$`광역시도`,"\n",round(b$`윤석열1`,1),'%')
+label1 <- 
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(b$`윤석열1`, main = "윤석열 후보의 광역시도별 득표율",
+      col = rainbow(length(b$`윤석열1`)),
+      labels = ifelse(b$`윤석열1`>3,label,b$`광역시도`),
+      labelcex = 0.8,
+      radius = 0.9)
+
+c <- aggregate(이재명 ~ 광역시도, election, sum)
+c
+c$이재명1 <- c$`이재명`/sum(c$`이재명`)*100
+c <- arrange(c,desc(c$`이재명1`))
+
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(c$`광역시도`,"\n",round(c$`이재명1`,1),'%')
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(c$`이재명1`, main = "이재명 후보의 광역시도별 득표율",
+      col = rainbow(length(c$`이재명1`)),
+      labels = ifelse(c$`이재명1`>3,label,c$`광역시도`),
+      labelcex = 0.8,
+      radius = 0.9)      ​
+​
+b <- aggregate(윤석열 ~ 광역시도, election, sum)
+b
+b$윤석열1 <- b$`윤석열`/sum(b$`윤석열`)*100
+b <- arrange(b,desc(b$`윤석열1`))
+b
+new <- data.frame(광역시도 = "기타",
+                  윤석열 = sum(b$윤석열[6:nrow(b)]),
+                  윤석열1 = sum(b$윤석열1[6:nrow(b)]))
+
+b <- b[-(6:nrow(b)), ]
+b <- rbind(b,new)
+b
+
+### 내림차순 정렬해서 기타열을 하나만든다.(6번부터 아래까지 더하는걸로)
+그리고 b에서 6번부터 아래까지 제거하고 rbind써서 받아온다 그러면 된다.
+
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(b$`광역시도`,"\n",round(b$`윤석열1`,1),'%')
+label1 <- 
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(b$`윤석열1`, main = "윤석열 후보의 광역시도별 득표율",
+      col = rainbow(length(b$`윤석열1`)),
+      labels = ifelse(b$`윤석열1`>3,label,b$`광역시도`),
+      labelcex = 0.8,
+      radius = 0.9
+      )
+d <- election[election$`광역시도` == '서울특별시', ]
+
+b <- aggregate(윤석열 ~ 시군구, d, sum)
+b$윤석열1 <- b$`윤석열`/sum(b$`윤석열`)*100
+b <- arrange(b,desc(b$`윤석열1`))
+new <- data.frame(시군구 = "기타",
+                  윤석열 = sum(b$윤석열[6:nrow(b)]),
+                  윤석열1 = sum(b$윤석열1[6:nrow(b)]))
+
+b <- b[-(6:nrow(b)), ]
+b <- rbind(b,new)
+b
+
+#### 득표율 3퍼센트 미만은 표시안한다. ​
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(b$`시군구`,"\n",round(b$`윤석열1`,1),'%')
+label1 <- 
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(b$`윤석열1`, main = "윤석열 후보의 광역시도별 득표율",
+      col = rainbow(length(b$`윤석열1`)),
+      labels = ifelse(b$`윤석열1`>3,label,b$`시군구`),
+      labelcex = 0.8,
+      radius = 0.9
+      )
+​
+#### 수도권 비수도권 
+election1 <- election
+election1$`광역시도` <- ifelse(election1$`광역시도` == "서울특별시" | election1$`광역시도` == "경기도" | election1$`광역시도` == "인천광역시", '수도권', '비수도권')
+
+u <- aggregate(윤석열 ~ 광역시도, election1, sum)
+u$윤석열1 <- u$`윤석열`/sum(u$`윤석열`)*100
+u
+
+library(plotrix)
+label <- paste(u$`광역시도`,"\n",round(u$`윤석열1`,1),'%')
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(u$`윤석열1`, main = "윤석열 후보의 광역시도별 득표율",
+      col = rainbow(length(u$`윤석열1`)),
+      labels = ifelse(u$`윤석열1`>3,label,u$`광역시도`),
+      labelcex = 0.8,
+      radius = 0.9
+      )
+###서울특별시 탑5만남기고 다 기타.  -- 열하나 만들어서 (data.frame) 내림차순한다음에 6번부터 마지막(nrow())까지 한거 -로 
+지우고,  b<-rbind(b, new)사용해서 6번째에 추가한다.
+​
+​
+d <- election[election$`광역시도` == '서울특별시', ]
+
+b <- aggregate(윤석열 ~ 시군구, d, sum)
+b$윤석열1 <- b$`윤석열`/sum(b$`윤석열`)*100
+b <- arrange(b,desc(b$`윤석열1`))
+new <- data.frame(시군구 = "기타",
+                  윤석열 = sum(b$윤석열[6:nrow(b)]),
+                  윤석열1 = sum(b$윤석열1[6:nrow(b)]))
+
+b <- b[-(6:nrow(b)), ]
+b <- rbind(b,new)
+b
+
+
+# plotrix 패키지 로드
+library(plotrix)
+label <- paste(b$`시군구`,"\n",round(b$`윤석열1`,1),'%')
+label1 <- 
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(b$`윤석열1`, main = "윤석열 후보의 광역시도별 득표율",
+      col = rainbow(length(b$`윤석열1`)),
+      labels = ifelse(b$`윤석열1`>3,label,b$`시군구`),
+      labelcex = 0.8,
+      radius = 0.9
+      )
+### 아래 두개는 같은 거임.
+​
+d <- election[election$`시군구` == '성북구', ]
+b <- aggregate(cbind(이재명, 윤석열, 심상정) ~ 시군구, d, sum)
+b$이재명1 <- (b$이재명/d$`투표수`)*100
+b$윤석열1 <- (b$윤석열/d$`투표수`)*100
+b$심상정1 <- (b$심상정/d$`투표수`)*100
+b$기타1 <- (100-sum(b$`이재명1`,b$`윤석열1`,b$`심상정1`))
+b
+b$`이재명` <- b$`이재명1`
+b$`윤석열` <- b$`윤석열1`
+b$`심상정` <- b$`심상정1`
+b$기타 <- b$`기타1`
+b
+b <- b[,-(5:8) ]
+b
+
+library(plotrix)
+par(family = "AppleGothic", bg = 'lightgray')
+labels <- paste(names(b)[-1], "\n", round(c(b$이재명, b$윤석열, b$심상정, b$기타), 2), "%")
+pie3D(c(b$이재명, b$윤석열, b$심상정, b$기타), 
+      labels = labels, 
+      col = c('skyblue','red','yellow','white'),
+      main = "서울시 성북구의 후보별 득표율",
+      labelcex = 0.8)​
+>>>>>>>>>>>>>>>>>>>
+단순히 subset으로 뽑아와서 하는게 맞음. 아래가 더 쉬움.!!!!!!!!
+pob_윤석열 <- subset(election,시군구 =='성북구')
+pob_윤석열_ratio<-
+as.numeric(c(pob_윤석열[,5:7],pob_윤석열[,4]-sum(pob_윤석열[,5:7])))/pob_윤석열[,4]
+pob_윤석열_label <-
+paste(c("이재명","윤석열","심상정","기타"),"\n",round(pob_윤석열_ratio*100,2),"%")
+이름 만든다. 나눗 값에 100곱해서 2번째 자리까지 만들고 %붙인다.
+
+library(plotrix)
+# 라벨 생성
+
+# 3D 파이 차트 그리기
+par(family = "AppleGothic", bg = 'lightgray')
+pie3D(pob_윤석열_ratio, 
+      labels = pob_윤석열_label, 
+      col = rainbow(length(pob_윤석열_ratio)), 
+      labelcex = 0.8, 
+      radius = 0.9, 
+      main = "윤석열 후보의 성북구 득표율")​
+
+
+​
+
+​
+
+​
+
+​
