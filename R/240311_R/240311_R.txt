@@ -1,0 +1,343 @@
+240311_R
+
+**### 투표수가 가장 많은 4지역(광역시도)의 각 후보별 득표 수 막대그래프로** 
+
+elec_sum <- aggregate(투표수~광역시도,election,sum)
+
+library(dplyr)
+
+head(elec_sum)
+
+top4area <- arrange(elec_sum,desc(투표수))[1:4,1] ##광역시도 이름만 나옴
+
+top4 <- c() #초기화
+
+for(i in 1:length(top4area)){
+
+topTemp <- c(subset(elec_윤석열,광역시도 == top4area[i])[1,2],  #광역시도가 경기도,서울특별시 등등으로 뽑아내는거. elec_윤석열로
+
+subset(elec_이재명,광역시도 == top4area[i])[1,2],
+
+subset(elec_심상정,광역시도 == top4area[i])[1,2])
+
+top4 = cbind(top4,topTemp)
+
+}
+
+colnames(top4) <- top4area
+
+#aggregate를 사용하지 않고 계산
+
+class(apply(subset(election,광역시도 == top4area[1])[5:7],2,sum)) ##경기도 다나옴. 이재명 윤석열 심상정만빼오기.2번은 열
+
+top4 <- c()
+
+for(i in 1:length(top4area)){
+
+topTemp <- apply(subset(election,광역시도 == top4area[i])[,5:7],2,sum) 광역시도가 경기도 순으로 뽑아서 열로 합계구하기.
+
+top4 <- cbind(top4,topTemp).  top4에 열로 top4에 4개 연결하는거
+
+}
+
+top4
+
+colnames(top4) <- top4area. 열이름을 top4area의 이름으로 주기.
+
+top4
+
+class(top4)  #matrix는 바 로 만들수있다. bind는 매트릭스 형태.
+
+par(family = "AppleGothic", bg = 'lightgray')
+
+options(scipen = 100)
+
+barplot(top4,
+
+ylim=c(0,5000000),
+
+beside=T,
+
+main = "투표수가 가장 많은 4지역의 후보별 득표수 차이",
+
+col = c('skyblue','red','yellow'),
+
+legend.text = T
+
+)
+
+**# 투표수가 높은 시군구의 후보별 득표수**
+
+****
+
+top4area1 <- arrange(election,desc(투표수))[1:5,2] ##시군구 이름만 나오ㅓㅁ.
+
+top4area2 <- arrange(election,desc(투표수))[1:5,1] ##광역시도 이름만 나옴
+
+#aggregate 안쓰는 이유는 시군구는 굳이 더할게없음. 그래서 시군구 앞에서 5개 광역시 5개해서 페이스트로 겹치는 것.
+
+top4area3 <- paste(top4area2,top4area1)
+
+top4area3
+
+top41 <- c()
+
+for(i in 1:length(top4area1)){
+
+topTemp1 <- apply(subset(election,광역시도 == top4area2[i] & 시군구 == top4area1[i])[,5:7],2,sum)
+
+top41 <- cbind(top41,topTemp1)
+
+}
+
+top41
+
+colnames(top41) <- top4area3
+
+top41
+
+class(top41)  #matrix는 바 로 만들수있다. bind는 매트릭스 형태.
+
+par(family = "AppleGothic", bg = 'lightgray')
+
+options(scipen = 100)
+
+barplot(top41,ylim = c(0,600000))
+
+#가장 많이 사용된 이름 탑텐 구하기.
+
+library(dplyr)
+
+baby
+
+Femail <- subset(baby, Gender == "F")
+
+Male <- subset(baby, Gender == "M")
+
+Femail
+
+nrow(Femail)
+
+nrow(Male)
+
+femailName <- aggregate(Count~Name,Femail,sum)
+
+head(arrange(femailName,desc(Count)),10)
+
+femailyear <- aggregate(Count~Year,Femail,sum)
+
+maleyear <- aggregate(Count~Year,Male,sum)
+
+femailyear
+
+maleyear
+
+par(family = "AppleGothic", bg = 'lightgray')
+
+#### 선 두개 그리기
+
+plot(femailyear, ylim = c(0, 2500000), ylab = "Count", xlab = "Year", main = "1880~2014년 인구분포 현황", type = 'l', col = 'orange')
+
+lines(maleyear, type = 'l', col = 'blue'). lines를 추가하면 선하나 더 추가된다.
+
+legend(1980,1000000, legend = c("Femail", "Male"), fill = c("orange", "blue")). 레전드 위치, 레전드할 목록, 그리고 선에는 fill을사용,
+
+#2행 2열 차트그리기
+
+par(bg='white')
+
+par(mfrow=c(2,2))
+
+barplot(price,type='l')
+
+plot(price,type='o')
+
+plot(price,type='h')
+
+plot(price,type='s')
+
+# 중첩 자료 확인하기.
+
+table(x,y)
+
+par(bg='white')
+
+xy.df <- as.data.frame(table(x,y))
+
+xy.df
+
+plot(x,y,pch=15,cex = xy.df$Freq) #커진것은 중복이라는 소리.
+
+par(bg='white')
+
+x <- c(1,1,1,2,2,2,2,2,2,3,3,4,5,6)
+
+y <- c(1,1,4,2,3,2,2,2,3,2,1,1,1,1)
+
+z <- data.frame(x,y)
+
+sunflowerplot(z).  직선에 따라 2개중복인지 4개중복인지 확인가능.
+
+# iris의 sepal.length와 iris.sepeal.width의 중복 확인 산포도
+
+sunflowerplot(iris$Sepal.Length,iris$Sepal.Width)
+
+# 차트 두개 겹치기
+
+par(bg = 'white')
+
+x <- 1:10
+
+dotchart(x)
+
+par(new =T) #현재차트 유지하고 다른차트를 그린다.
+
+y <- c(1,2,1,4,5,2,7,7,2,5)
+
+barplot(y,col='blue').  이상태로 겹치면 바가 점을 먹어버려서 안보이기때문에 투명도를 확인해야한다.
+
+- ************ 투명도 확인*******
+
+par(bg = 'white')
+
+x <- 1:10
+
+mycol <- rgb(0,0,1,seq(0,1,0.1))  #seq <- 컬러에 그라데이션 사용
+
+dotchart(x,col='red')
+
+par(new=T)
+
+barplot(x,col=mycol)  
+
+jkl <- c(1,1,1,1,1,2,5)
+
+상자 수염 그래프. 이상치 확인을 위해 사용
+
+summary(jkl)
+
+par(bg = 'white')
+
+boxplot(jkl)   #이상치를 확인하기 위한것. - 이상치 발견시 제거 후에 정렬을 해야한다.
+
+sunflower를 보고 바플롯을 보고 상자수염을 확인해서 이상치가 없는지 확인한다.
+
+par(bg = 'yellow')
+
+boxplot(iris$Sepal.Width,horizontal = T)
+
+#원이 3개니까 1쪽은 박스길이보다 당연히 작으니 특이치. 그 다음 원2번째는 원1번째부터 더해서 계산 즉 특이치, 3번도 특이치
+
+안쪽에 잇으면 특이치, 바깥이면 이상치
+
+dist_quantiles <- quantile(cars$dist)
+
+cars$dist
+
+# 최대값 제거
+
+dist_quantiles <- cars$dist[-49]
+
+dist_quantiles
+
+summary(dist_quantiles)
+
+par(bg='white')
+
+boxplot(cars$dist).   먼저 max의 위치를 구해서 빼고 나서 boxplot을 사용해서 이상치인지 특이치인지 확인한다. 이상치(특이치)위치가
+
+3분위-4분위 + 맥스값빼고새로나오는 맥스 값의 합보다 작을경우는 특이치, 클경우는 이상치가 된다.
+
+#거리 바깥으로 가면 이상치 안이면 특이치
+
+특이한 여러그래프
+
+par(family="AppleGothic",bg='white')
+
+x<-c(1,3,6,8,9)
+
+y<-c(12,56,78,32,9)
+
+plot(x,y)
+
+#(3,3)과 (4,4)를 연결하는 선분 그리기
+
+segments(6,78, 8,32). 선분그리기.
+
+arrows(3,56,1,12,col='blue') 화살표.
+
+#사각형 그리기
+
+rect(4,20,6,30,density = 30) ##사각형은 없는 위치로 만들수있음.
+
+#글자쓰기
+
+text(4,40,"This is a 샘플",srt=50) 위치에 글자쓸수잇고 srt는 회전
+
+#테두리
+
+mtext("Character",side=4,adj=0.5). 사이드는 표의 위치중 하나(1~4, 0.5는 그 선분에서 위치)
+
+# 그림의 테두리 그리기
+
+box(lty=1,col='red')(테두리에 색입히기)
+
+# x축을 추가,y축의 40위치에 0~10까지 표시하고 빨간색
+
+axis(1,pos = 40,at=0:10,col='red'). 표안에 자형태의 표를 또 다시 그리는 방법. x축(1), pos(y축) at(x의 위치)
+
+#y축 추가, x축의 6의 위치에 20~60
+
+axis(2,pos=6,at=20:60,col='blue'). y축(2),pos(x축),at(y축의 위치)
+
+#####예제(경기도 화성시, 부천시 나오던 예제에 추가)
+
+a <- arrange(election,desc(투표수))[,4]   일렉션에서 투표수로 내림차순정렬해서 4번째열(ㅜ투표수)만 뽑아냄
+
+b <- head(a,5). 5개만 출력
+
+for (i in 1:length(b)) {  5개니까 5번으로 하고
+
+text(0.7+1.2*(i-1),a[i],a[i]) y좌표 위치가 투표수 위치 위니까 투표수와 같고, x축은 0.7단위로 1.2씩 증가한다는 것을 알았음.
+
+}
+
+###### 퍼센트로 3개 표시하기 각 막대에########
+
+c <- arrange(election,desc(투표수))
+
+c <- c[,5:7]
+
+c <- head(c,5)
+
+c$TotalVotes <- rowSums(c[, 1:3])
+
+c$Lee <- round((c$`이재명`/c$TotalVotes)*100,2)
+
+c$Yoon <- round((c$`윤석열`/c$TotalVotes)*100,2)
+
+c$Sim <- round((c$`심상정`/c$TotalVotes)*100,2)
+
+c
+
+a <- arrange(election,desc(투표수))[,4]
+
+a
+
+l <- arrange(election,desc(투표수))[,5]
+
+y <- arrange(election,desc(투표수))[,6]
+
+s <- arrange(election,desc(투표수))[,7]
+
+b <- head(a,5)
+
+for (i in 1:length(c$Lee)) {
+
+text(0.7 + 1.2 * (i - 1), l[i]/2, paste0(round(c$Lee[i], 2), "%")) 각위치별로 중앙에 표시해야하니까 
+
+text(0.7 + 1.2 * (i - 1), l[i]+y[i]/2, paste0(round(c$Yoon[i], 2), "%"))
+
+text(0.7 + 1.2 * (i - 1), l[i]+y[i]+s[i]/2, paste0(round(c$Sim[i], 2), "%"))
+
+}
